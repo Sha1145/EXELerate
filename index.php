@@ -1,22 +1,65 @@
 <?php
- session_start();
+	$page="index";
+	$title="Home";
+	require_once('header.php');
+?>		
+		<div class="container-fluid">
+		  <div class="row slider">
+			<div class="col-lg-14">			
+				<div id="myCarousel" class="carousel slide" data-ride="carousel">
+				  <ol class="carousel-indicators">
+					<li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+					<li data-target="#myCarousel" data-slide-to="1"></li>
+					<li data-target="#myCarousel" data-slide-to="2"></li>
+				  </ol>
+				  <div class="carousel-inner" role="listbox">
+					<div class="item active">
+					  <img src="images/1.jpg" alt="Chania">
+					</div>
+					<div class="item">
+					  <img src="images/2.jpg" alt="Chania">
+					</div>
+					<div class="item">
+					  <img src="images/3.jpg" alt="Flower">
+					</div>
+				  </div>
+				  
+				  <a class="left carousel-control" href="#myCarousel" role="button" data-slide="prev">
+					<span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+					<span class="sr-only">Previous</span>
+				  </a>
+				  <a class="right carousel-control" href="#myCarousel" role="button" data-slide="next">
+					<span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+					<span class="sr-only">Next</span>
+				  </a>
+				</div>
+			</div>
+		  </div>
+		
+		  <div class="row home_info">
+			<div class="col-md-9 recent_product">
+                <div class="panel panel-default">
+				    <div class="panel-heading">Recent Products</div>
+				        <div class="panel-body">
+                            <div class="container recent_product_container">
+                              <div class="row recent_img">
+                                <div class="col-md-4"><img src="images/Taj%20Mahal.jpeg" class="img-thumbnail home_img" alt="Cinque Terre"></div>
+                                <div class="col-md-4"><img src="images/Mona%20Lisa.png" class="img-thumbnail home_img" alt="Cinque Terre"></div>
+                                <div class="col-md-4"><img src="images/Krishna%20with%20Gopi's.Jpg" class="img-thumbnail home_img" alt="Cinque Terre"></div>
+                              </div>
+                                <div class="row recent_img_desc">
+                                    <div class="col-md-4">Taj Mahal</div>
+                                    <div class="col-md-4">Mona Lisa</div>
+                                    <div class="col-md-4">Krishna with Gopi's</div>
+                                </div>
+       
+                            </div>
+                        </div>
+                </div>
+			</div>
+		
+		  </div>
+<?php
 
-
- include("connection.php");
- include("functions.php");
-
- $user_data = check_login($con);
-?>
-
-<!DOCTYPE html>
-<html>
-<head>
-	<title>My website</title>
-</head>
-<body>
-	<a href="logout.php">Logout</a>
-    <h1> This is the index page</h1>
-    <br>
-    Hello, <?php echo $user_data['user_name']; ?>
-    </body>
-</html>
+	require('footer.php');
+?>	
