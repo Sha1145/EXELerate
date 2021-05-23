@@ -1,81 +1,64 @@
-<?php
- session_start();
+<?php session_start() ?>
+<div class="container-fluid">
+	<form action="" id="signup-frm">
+		<div class="form-group">
+			<label for="" class="control-label">Name</label>
+			<input type="text" name="name" required="" class="form-control">
+		</div>
+		<div class="form-group">
+			<label for="" class="control-label">Contact</label>
+			<input type="text" name="contact" required="" class="form-control">
+		</div>
+		<div class="form-group">
+			<label for="" class="control-label">Address</label>
+			<textarea cols="30" rows="3" name="address" required="" class="form-control"></textarea>
+		</div>
+		<div class="form-group">
+			<label for="" class="control-label">Email</label>
+			<input type="email" name="email" required="" class="form-control">
+		</div>
+		<div class="form-group">
+			<label for="" class="control-label">Username</label>
+			<input type="text" name="username" required="" class="form-control">
+		</div>
+		<div class="form-group">
+			<label for="" class="control-label">Password</label>
+			<input type="password" name="password" required="" class="form-control">
+		</div>
+		<button class="button btn btn-primary btn-sm">Create</button>
+		<button class="button btn btn-secondary btn-sm" type="button" data-dismiss="modal">Cancel</button>
 
- include("connection.php");
- include("functions.php");
+	</form>
+</div>
 
- if($_SERVER['REQUEST_METHOD'] == "POST")
- {
- 	//something was posted
- 	$username_name = $_POST['user_name'];
- 	$password = $_POST['password'];
+<style>
+	#uni_modal .modal-footer{
+		display:none;
+	}
+</style>
+<script>
+	$('#signup-frm').submit(function(e){
+		e.preventDefault()
+		start_load()
+		if($(this).find('.alert-danger').length > 0 )
+			$(this).find('.alert-danger').remove();
+		$.ajax({
+			url:'admin/ajax.php?action=signup',
+			method:'POST',
+			data:$(this).serialize(),
+			error:err=>{
+				console.log(err)
+		$('#signup-frm button[type="submit"]').removeAttr('disabled').html('Create');
 
- 	if(!empty($user_name) && !empty($password) && !is_numeric($user_name))
-
- 	{
-
- 		//save to database
- 		$user_id = random_num(20);
- 		$query = "insert into users (user_id,user_name,password) values ('$user_id','$user_name','$password')";
- 		
- 		mysqli_query($con, $query);
-    
- 		header("Location: login.php");
- 		die;
- 	} else
- 	{
- 		echo "Please enter some valid information";
- 	}
- }
-?>
-
-<!DOCTYPE html>
-<html>
-<head>
-	<title>Signup</title>
-</head>
-<body>
-
-	<style type="text/css">
-		#text{
-			height: 25px;
-			border-radius: : 5px;
-			padding: 4px;
-			border: solid thin #aaa;
-			width: 100%;
-		}
-		#button{
-			padding: 10px;
-			width: 100px;
-			color: white;
-			background-color: lightblue;
-		
-		}
-
-		#box{
-
-			background-color: grey;
-			margin: auto;
-			width: 300px;
-			padding: 20px;
-		}
-
-	</style>
-
-	<div id="box">
-		
-       <form method="post">
-       		<div style="font-size: 20px;margin: 10px; color: white;">Signup</div>
-         	<input id="text" type ="text" name="user_name"> <br><br>
-       	 	<input id="text" type="password" name="password"><br><br>
-
-       		<input id="button" type="submit" value="Signup"><br><br>
-
-       		<a href="Login.php">Click to Login</a><br><br>
-       	
-       </form>
-
-	</div>
-
-</body>
-</html>
+			},
+			success:function(resp){
+				if(resp == 1){
+					location.reload();
+				}else{
+					$('#signup-frm').prepend('<div class="alert alert-danger">Email already exist.</div>')
+					end_load()
+				}
+			}
+		})
+	})
+</script>
