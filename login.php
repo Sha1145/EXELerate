@@ -1,93 +1,52 @@
-<?php
+<?php session_start() ?>
+<div class="container-fluid">
+	<form action="" id="login-frm">
+		<div class="form-group">
+			<label for="" class="control-label">Username</label>
+			<input type="text" name="username" required="" class="form-control">
+		</div>
+		<div class="form-group">
+			<label for="" class="control-label">Password</label>
+			<input type="password" name="password" required="" class="form-control">
+			<small><a href="javascript:void(0)" id="new_account">Create New Account</a></small>
+		</div>
+		<button class="button btn btn-primary btn-sm">Login</button>
+		<button class="button btn btn-secondary btn-sm" type="button" data-dismiss="modal">Cancel</button>
+	</form>
+</div>
 
-session_start();
-
-include("connection.php");
-include("functions.php");
-
-if($_SERVER['REQUEST_METHOD'] == "POST")
-{
-	//SMERTHING WAS POSTED
-	$user_name = $_POST['user_name'];
-	$password = $_POST['password'];
-
-	if(!empty($user_name) && !empty($password) && !is_numeric($user_name))
-	{
-		//read from database
-
-		$query = "select * from users  where user_name = '$user_name' limit 1";
-
-		$result = mysqli_query($con, $query);
-
-		if ($result) 
-		{
-			if($result && mysqli_num_rows($result) > 0)
-		 		{
-		 				$user_data = mysqli_fetch_assoc($result);
-		 				if ($user_data['password'] == $password)
-		 				 {
-		 				 	$_SESSION['user_id'] = $user_data['user_id'];
-		 					header("Location: index.php");
-							die;
-		 				}
-		 		}
-		}
-
-		echo "wrong username or password!";
-	} else
-	{
-		echo "wrong username or password!";
+<style>
+	#uni_modal .modal-footer{
+		display:none;
 	}
-}
-?>
+</style>
 
-<!DOCTYPE html>
-<html>
-<head>
-	<title>Login</title>
-</head>
-<body>
+<script>
+	$('#new_account').click(function(){
+		uni_modal("Create an Account",'signup.php?redirect=index.php?page=checkout')
+	})
+	$('#login-frm').submit(function(e){
+		e.preventDefault()
+		start_load()
+		if($(this).find('.alert-danger').length > 0 )
+			$(this).find('.alert-danger').remove();
+		$.ajax({
+			url:'admin/ajax.php?action=login2',
+			method:'POST',
+			data:$(this).serialize(),
+			error:err=>{
+				console.log(err)
+		end_load()
 
-	<style type="text/css">
-		#text{
-			height: 25px;
-			border-radius: : 5px;
-			padding: 4px;
-			border: solid thin #aaa;
-			width: 100%;
-		}
-		#button{
-			padding: 10px;
-			width: 100px;
-			color: white;
-			background-color: lightblue;
-		
-		}
-
-		#box{
-
-			background-color: grey;
-			margin: auto;
-			width: 300px;
-			padding: 20px;
-		}
-
-	</style>
-
-	<div id="box">
-		
-       <form method="post">
-       		<div style="font-size: 20px;margin: 10px; color: white;">Login</div>
-         	<input id="text" type ="text" name="user_name"> <br><br>
-       	 	<input id="text" type="password" name="password"><br><br>
-
-       		<input id="button" type="submit" value="Login"><br><br>
-
-       		<a href="signup.php">Click to Signup</a><br><br>
-       	
-       </form>
-
-	</div>
-
-</body>
-</html>
+			},
+			success:function(resp){
+				if(resp == 1){
+					location.href ='<?php echo isset($_GET['redirect']) ? $_GET['redirect'] : 'index.php?page=home' ?>';
+				}else{
+					$('#login-frm').prepend('<div class="alert alert-danger">Email or password is incorrect.</div>')
+		end_load()
+				}
+			}
+		})
+	})
+</script>
