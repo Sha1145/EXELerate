@@ -12,7 +12,7 @@
                         <br>
             
                      <h2> ART GALLERIES provide their artists with space to exhibit their art and the artists <br> with art reality 
-                     not only do the large mojority og galleries already have more art and artits than they can handle, <br>but they are also continually contacted by new artists looking for representation</h2>
+                     not only do the large majority of galleries already have more art and artits than they can handle, <br>but they are also continually contacted by new artists looking for representation</h2>
                 </div>
             </div>
             
